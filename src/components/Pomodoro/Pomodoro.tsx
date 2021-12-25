@@ -25,7 +25,7 @@ function StateButton({
 }) {
 	return (
 		<div
-			className={`text-lg mx-auto w-fit h-fit hover:cursor-pointer rounded active:border-b-0 transition-all px-2 ${
+			className={`text-lg md:text-xl mx-auto w-fit h-fit hover:cursor-pointer rounded active:border-b-0 transition-all px-2 ${
 				isActive ? "bg-orange-600" : ""
 			}`}
 			onClick={onClick}
@@ -38,7 +38,7 @@ function StateButton({
 function ControlButton({ children, onClick }: { children: React.ReactNode; onClick: () => void }) {
 	return (
 		<div
-			className="w-fit h-fit hover:cursor-pointer bg-orange-600 border-orange-700 rounded border-b-4 active:border-b-0 last:ml-6 transition-all hover:border-orange-400"
+			className="w-fit h-16 md:h-20 hover:cursor-pointer bg-orange-600 border-b-orange-700 rounded border-b-4 active:border-b-orange-600 last:ml-6 transition-all hover:border-orange-400"
 			onClick={onClick}
 		>
 			{children}
@@ -105,8 +105,8 @@ function Pomodoro() {
 	}
 
 	return (
-		<div className="mt-12 p-6 border-2 rounded-md w-1/3 h-1/2 text-center grid grid-rows-custom">
-			<h1 className="text-9xl tabular-nums" ref={timeRef}>
+		<div className="mt-6 p-2 border-2 rounded-md w-full md:w-2/3 max-w-xl h-fit md:h-1/2 text-center grid grid-rows-custom ">
+			<h1 className="text-8xl md:text-9xl tabular-nums" ref={timeRef}>
 				25:00
 			</h1>
 			<div className="w-full grid grid-cols-3 items-center">
@@ -140,11 +140,11 @@ function Pomodoro() {
 					<img
 						src={isRunning ? pauseSVG : playSVG}
 						alt={isRunning ? "pause button" : "start button"}
-						className="h-20"
+						className="h-full"
 					/>
 				</ControlButton>
 				<ControlButton onClick={stop}>
-					<img src={stopSVG} alt="stop button" className="h-20" />
+					<img src={stopSVG} alt="stop button" className="h-full" />
 				</ControlButton>
 			</div>
 		</div>
