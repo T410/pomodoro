@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useInterval } from "../../utils";
-import { playSVG, pauseSVG, stopSVG, uiSound } from "../../assets";
+import { playSVG, pauseSVG, stopSVG } from "../../assets";
 import { State } from "./Pomodoro.types";
+import { Audio } from "../";
+
 function calculateTime(time: number) {
 	const minutes = Math.floor(time / 60);
 	const seconds = time % 60;
@@ -47,6 +49,8 @@ function ControlButton({ children, onClick }: { children: React.ReactNode; onCli
 }
 
 function Pomodoro() {
+	const [loopCount, setLoopCount] = useState(4);
+	const [playAudio, setPlayAudio] = useState(false);
 	const timeRef = useRef<HTMLHeadingElement>(null);
 	const [time, setTime] = useState(25 * 60);
 	const [isRunning, setIsRunning] = useState(false);
@@ -72,10 +76,21 @@ function Pomodoro() {
 		}
 	}, [time]);
 
+	function onTimerFinish() {
+		setPlayAudio(true);
+		stop();
+		if (loopCount === 0) {
+			setLoopCount(4);
+			setCurrentState(State.LONG_BREAK);
+		} else {
+			setLoopCount(loopCount - 1);
+			setCurrentState(State.SHORT_BREAK);
+		}
+	}
+
 	const [play, pause] = useInterval(() => {
 		if (time <= 0) {
-			new Audio(uiSound).play();
-			stop();
+			onTimerFinish();
 		} else {
 			setTime(time - 1);
 			document.title = calculateTime(time - 1).toString();
@@ -105,7 +120,8 @@ function Pomodoro() {
 	}
 
 	return (
-		<div className="mt-6 p-2 border-2 rounded-md w-full md:w-2/3 max-w-xl h-fit md:h-1/2 text-center grid grid-rows-custom ">
+		<div className="mt-6 p-2 mx-2 rounded-md w-full md:w-2/3 max-w-xl h-fit text-center grid gap-4 bg-slate-700">
+			<Audio play={playAudio} />
 			<h1 className="text-8xl md:text-9xl tabular-nums" ref={timeRef}>
 				25:00
 			</h1>
@@ -135,7 +151,7 @@ function Pomodoro() {
 					Long Break
 				</StateButton>
 			</div>
-			<div className="w-full items-center justify-center flex flex-row">
+			<div className="w-full items-center justify-center flex flex-row h-fit pt-2">
 				<ControlButton onClick={buttonHandler}>
 					<img
 						src={isRunning ? pauseSVG : playSVG}
