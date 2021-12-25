@@ -56,7 +56,7 @@ function Pomodoro() {
 
 	return (
 		<div className="mt-12 p-6 border-2 rounded-md w-1/3 h-1/2 text-center flex flex-col justify-between items-center">
-			<h1 className="text-9xl" ref={timeRef}>
+			<h1 className="text-9xl tabular-nums" ref={timeRef}>
 				25:00
 			</h1>
 			<div className="w-full items-center justify-center flex flex-row h-full">
