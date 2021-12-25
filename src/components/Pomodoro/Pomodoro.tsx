@@ -16,7 +16,7 @@ function setTextContent(ref: React.RefObject<HTMLElement>, text: string | number
 function Button({ children, onClick }: { children: React.ReactNode; onClick: () => void }) {
 	return (
 		<div
-			className="text-4xl w-fit h-fit right-0 hover:cursor-pointer bg-orange-600 border-orange-700 rounded border-b-4 active:border-b-0 last:ml-2"
+			className="text-4xl w-fit h-fit right-0 hover:cursor-pointer bg-orange-600 border-orange-700 rounded border-b-4 active:border-b-0 last:ml-2 transition-all hover:border-orange-400"
 			onClick={onClick}
 		>
 			{children}
@@ -34,6 +34,7 @@ function Pomodoro() {
 			stop();
 		} else {
 			setTime(time - 1);
+			document.title = calculateTime(time - 1).toString();
 			setTextContent(timeRef, calculateTime(time - 1));
 		}
 	}, 1000);
@@ -42,6 +43,7 @@ function Pomodoro() {
 		pause();
 		setIsRunning(false);
 		setTime(25 * 60);
+		document.title = "Pomodoro";
 		setTextContent(timeRef, calculateTime(25 * 60));
 	}
 
