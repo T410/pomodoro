@@ -1,3 +1,4 @@
+/// <reference path="../types.d.ts" />
 {
   "compilerOptions": {
     "target": "es5",
@@ -18,7 +19,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "typeRoots": [
+      "node_modules/@types",
+      "./types.d.ts"
+    ]
   },
   "include": [
     "src"
