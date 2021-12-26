@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useInterval } from "../../utils";
-import { playSVG, pauseSVG, stopSVG } from "../../assets";
+import { playSVG, pauseSVG, stopSVG, nextSVG } from "../../assets";
 import { State } from "./Pomodoro.types";
 import { Audio } from "../";
 
@@ -40,7 +40,7 @@ function StateButton({
 function ControlButton({ children, onClick }: { children: React.ReactNode; onClick: () => void }) {
 	return (
 		<div
-			className="w-fit h-16 md:h-20 hover:cursor-pointer bg-orange-600 border-b-orange-700 rounded border-b-4 active:border-b-orange-600 last:ml-6 transition-all hover:border-orange-400"
+			className="w-fit h-16 md:h-20 hover:cursor-pointer bg-orange-600 border-b-orange-700 rounded border-b-4 active:border-b-orange-600 transition-all hover:border-orange-400"
 			onClick={onClick}
 		>
 			{children}
@@ -49,7 +49,7 @@ function ControlButton({ children, onClick }: { children: React.ReactNode; onCli
 }
 
 function Pomodoro() {
-	const [loopCount, setLoopCount] = useState(4);
+	const [loopCount, setLoopCount] = useState(3);
 	const [playAudio, setPlayAudio] = useState(false);
 	const timeRef = useRef<HTMLHeadingElement>(null);
 	const [time, setTime] = useState(25 * 60);
@@ -79,13 +79,7 @@ function Pomodoro() {
 	function onTimerFinish() {
 		setPlayAudio(true);
 		stop();
-		if (loopCount === 0) {
-			setLoopCount(4);
-			setCurrentState(State.LONG_BREAK);
-		} else {
-			setLoopCount(loopCount - 1);
-			setCurrentState(State.SHORT_BREAK);
-		}
+		next();
 	}
 
 	const [play, pause] = useInterval(() => {
@@ -100,10 +94,35 @@ function Pomodoro() {
 	function stop() {
 		pause();
 		setIsRunning(false);
-		setTime(25 * 60);
 		document.title = "Pomodoro";
 		setTextContent(timeRef, calculateTime(25 * 60));
 	}
+
+	function next() {
+		switch (currentState) {
+			case State.POMODORO:
+				if (loopCount > 0) {
+					setCurrentState(State.SHORT_BREAK);
+					setLoopCount(loopCount - 1);
+				} else {
+					setCurrentState(State.LONG_BREAK);
+					setLoopCount(3);
+				}
+				break;
+			case State.SHORT_BREAK:
+				setCurrentState(State.POMODORO);
+				break;
+			case State.LONG_BREAK:
+				setCurrentState(State.POMODORO);
+				break;
+		}
+	}
+
+	useEffect(() => {
+		if (playAudio) {
+			setPlayAudio(false);
+		}
+	}, [playAudio]);
 
 	function buttonHandler() {
 		if (isRunning) {
@@ -151,7 +170,7 @@ function Pomodoro() {
 					Long Break
 				</StateButton>
 			</div>
-			<div className="w-full items-center justify-center flex flex-row h-fit pt-2">
+			<div className="w-full items-center justify-center flex flex-row h-fit pt-2 space-x-4">
 				<ControlButton onClick={buttonHandler}>
 					<img
 						src={isRunning ? pauseSVG : playSVG}
@@ -161,6 +180,9 @@ function Pomodoro() {
 				</ControlButton>
 				<ControlButton onClick={stop}>
 					<img src={stopSVG} alt="stop button" className="h-full" />
+				</ControlButton>
+				<ControlButton onClick={next}>
+					<img src={nextSVG} alt="next button" className="h-full" />
 				</ControlButton>
 			</div>
 		</div>
