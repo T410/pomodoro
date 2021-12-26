@@ -139,7 +139,7 @@ function Pomodoro() {
 	}
 
 	return (
-		<div className="mt-6 p-2 mx-2 rounded-md w-full md:w-2/3 max-w-xl h-fit text-center grid gap-4 bg-slate-700">
+		<div className="my-4 p-2 mx-2 rounded-md w-full h-fit text-center grid gap-4 bg-slate-700">
 			<Audio play={playAudio} />
 			<h1 className="text-8xl md:text-9xl tabular-nums" ref={timeRef}>
 				25:00
