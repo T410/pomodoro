@@ -1,8 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useInterval } from "../../utils";
 import { playSVG, pauseSVG, stopSVG, nextSVG } from "../../assets";
-import { State } from "./Pomodoro.types";
 import { Audio } from "../";
+import { useAppDispatch } from "../../app/hooks";
+import { increment } from "../../features/counter/counterSlice";
+
+import { State } from "./Pomodoro.types";
 
 function calculateTime(time: number) {
 	const minutes = Math.floor(time / 60);
@@ -49,6 +52,8 @@ function ControlButton({ children, onClick }: { children: React.ReactNode; onCli
 }
 
 function Pomodoro() {
+	const dispatch = useAppDispatch();
+
 	const [loopCount, setLoopCount] = useState(3);
 	const [playAudio, setPlayAudio] = useState(false);
 	const timeRef = useRef<HTMLHeadingElement>(null);
@@ -111,9 +116,11 @@ function Pomodoro() {
 				break;
 			case State.SHORT_BREAK:
 				setCurrentState(State.POMODORO);
+				dispatch(increment());
 				break;
 			case State.LONG_BREAK:
 				setCurrentState(State.POMODORO);
+				dispatch(increment());
 				break;
 		}
 	}
