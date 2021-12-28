@@ -1,9 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from "../features/counter/counterSlice";
+import { counterReducer, timeControlReducer, timerReducer, configReducer, workStateReducer } from "../features/";
 
 export const store = configureStore({
 	reducer: {
+		config: configReducer,
 		counter: counterReducer,
+		timer: timerReducer,
+		timeControl: timeControlReducer,
+		workState: workStateReducer,
 	},
 });
 
