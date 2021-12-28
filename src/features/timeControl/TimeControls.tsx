@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { setTime } from "../timer/timerSlice";
 import { incrementPomodoro, setWorkState, WorkStateEnum } from "../state/workStateSlice";
 
-function TimeControls() {
+function TimeControls({ onNext }: { onNext: () => void }) {
 	const dispatch = useAppDispatch();
 	const timeState = useAppSelector((state) => state.timeControl.state);
 	const workState = useAppSelector((state) => state.workState);
@@ -28,27 +28,6 @@ function TimeControls() {
 			dispatch(play());
 		}
 		setIsRunning(!isRunning);
-	}
-
-	function onNext() {
-		switch (workState.state) {
-			case WorkStateEnum.POMODORO:
-				if (workState.currentPomodoroCount % config.pomodorosBeforeLongBreak === 0) {
-					dispatch(setTime(config.LONG_BREAK));
-					dispatch(setWorkState(WorkStateEnum.LONG_BREAK));
-				} else {
-					dispatch(setTime(config.SHORT_BREAK));
-					dispatch(setWorkState(WorkStateEnum.SHORT_BREAK));
-				}
-				break;
-
-			default:
-				dispatch(incrementPomodoro());
-				dispatch(setTime(config.POMODORO));
-				dispatch(setWorkState(WorkStateEnum.POMODORO));
-				break;
-		}
-		dispatch(play());
 	}
 
 	function onStop() {

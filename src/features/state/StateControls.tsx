@@ -2,6 +2,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { useEffect, useState } from "react";
 import { setWorkState, WorkStateEnum } from "./workStateSlice";
 import { setTime } from "../timer/timerSlice";
+import { stop } from "../timeControl/timeControlSlice";
 
 function StateButton({ children, type }: { children: React.ReactNode; type: WorkStateEnum }) {
 	const dispatch = useAppDispatch();
@@ -18,6 +19,7 @@ function StateButton({ children, type }: { children: React.ReactNode; type: Work
 	}, [workState, type]);
 
 	function onClick() {
+		dispatch(stop());
 		if (type !== workState) {
 			dispatch(setWorkState(type));
 			dispatch(setTime(config[type]));
