@@ -16,7 +16,7 @@ function Pomodoro() {
 	const [playAudio, setPlayAudio] = useState(false);
 
 	useEffect(() => {
-		dispatch(setDurations({ POMODORO: 25, SHORT_BREAK: 0.05, LONG_BREAK: 15 }));
+		dispatch(setDurations({ POMODORO: 25, SHORT_BREAK: 5, LONG_BREAK: 15 }));
 		dispatch(setPomodorosBeforeLongBreak(4));
 
 		dispatch(setTime(pomodoroTime));

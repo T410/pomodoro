@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { play, pause, stop, TimeStateEnum } from "./timeControlSlice";
 import { useEffect, useState } from "react";
 import { setTime } from "../timer/timerSlice";
-import { incrementPomodoro, setWorkState, WorkStateEnum } from "../state/workStateSlice";
 
 function TimeControls({ onNext }: { onNext: () => void }) {
 	const dispatch = useAppDispatch();

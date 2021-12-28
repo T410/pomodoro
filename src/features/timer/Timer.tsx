@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useInterval } from "../../utils";
+import { useInterval } from "../../app/hooks";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { tick } from "../../features/timer/timerSlice";
 import { TimeStateEnum } from "../timeControl/timeControlSlice";
