@@ -1,24 +1,24 @@
 import { Button } from "../../components";
 import { playSVG, pauseSVG, stopSVG, nextSVG } from "../../assets";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { play, pause, stop, TimeStateEnum } from "./timeControlSlice";
-import { useEffect, useState } from "react";
+import { play, pause, stop, TimeStateEnum } from "./controlSlice";
 import { setTime } from "../timer/timerSlice";
+
+import { useEffect, useState } from "react";
 
 function TimeControls({ onNext }: { onNext: () => void }) {
 	const dispatch = useAppDispatch();
-	const timeState = useAppSelector((state) => state.timeControl.state);
-	const workState = useAppSelector((state) => state.workState);
+	const controlState = useAppSelector((state) => state.control);
 	const config = useAppSelector((state) => state.config);
 	const [isRunning, setIsRunning] = useState(false);
 
 	useEffect(() => {
-		if (timeState === TimeStateEnum.PLAYING) {
+		if (controlState.time === TimeStateEnum.PLAYING) {
 			setIsRunning(true);
 		} else {
 			setIsRunning(false);
 		}
-	}, [timeState]);
+	}, [controlState]);
 
 	function buttonHandler() {
 		if (isRunning) {
@@ -31,7 +31,7 @@ function TimeControls({ onNext }: { onNext: () => void }) {
 
 	function onStop() {
 		dispatch(stop());
-		dispatch(setTime(config[workState.state]));
+		// dispatch(setTime(config[workState.state]));
 	}
 
 	return (

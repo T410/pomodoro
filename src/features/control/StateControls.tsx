@@ -1,26 +1,26 @@
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { useEffect, useState } from "react";
-import { setWorkState, WorkStateEnum } from "./workStateSlice";
+import { setWorkState, WorkStateEnum } from "./controlSlice";
 import { setTime } from "../timer/timerSlice";
-import { stop } from "../timeControl/timeControlSlice";
+import { stop } from "../control/controlSlice";
 
 function StateButton({ children, type }: { children: React.ReactNode; type: WorkStateEnum }) {
 	const dispatch = useAppDispatch();
 	const [isActive, setIsActive] = useState(false);
-	const workState = useAppSelector((state) => state.workState.state);
+	const controlState = useAppSelector((state) => state.control.work);
 	const config = useAppSelector((state) => state.config);
 
 	useEffect(() => {
-		if (workState === type) {
+		if (controlState === type) {
 			setIsActive(true);
 		} else {
 			setIsActive(false);
 		}
-	}, [workState, type]);
+	}, [controlState, type]);
 
 	function onClick() {
 		dispatch(stop());
-		if (type !== workState) {
+		if (type !== controlState) {
 			dispatch(setWorkState(type));
 			dispatch(setTime(config[type]));
 		}

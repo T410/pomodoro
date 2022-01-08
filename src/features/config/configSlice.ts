@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../../app/store";
-import { WorkStateEnum } from "../state/workStateSlice";
+import { WorkStateEnum } from "../control/controlSlice";
 
 interface ConfigState {
 	[WorkStateEnum.POMODORO]: number;
@@ -9,7 +9,7 @@ interface ConfigState {
 	pomodorosBeforeLongBreak: number;
 }
 
-const initialState: ConfigState = {
+const initialConfigState: ConfigState = {
 	[WorkStateEnum.POMODORO]: 25 * 60,
 	[WorkStateEnum.SHORT_BREAK]: 5 * 60,
 	[WorkStateEnum.LONG_BREAK]: 15 * 60,
@@ -18,22 +18,23 @@ const initialState: ConfigState = {
 
 export const configSlice = createSlice({
 	name: "config",
-	initialState,
+	initialState: initialConfigState,
 	reducers: {
-		setDurations: (state, action: PayloadAction<{ [key in keyof typeof WorkStateEnum]: number }>) => {
-			for (const key in action.payload) {
-				state[WorkStateEnum[key as WorkStateEnum]] = action.payload[key as WorkStateEnum] * 60;
-			}
-		},
-		setPomodorosBeforeLongBreak: (state, action: PayloadAction<number>) => {
-			state.pomodorosBeforeLongBreak = action.payload;
+		setConfig: (state, action: PayloadAction<Partial<ConfigState>>) => {
+			let newConfig = { ...state };
+			Object.keys(action.payload).forEach((key) => {
+				if (WorkStateEnum[key as WorkStateEnum] && action.payload[key as WorkStateEnum] !== undefined) {
+					newConfig[key as WorkStateEnum] = action.payload[key as WorkStateEnum]! * 60;
+				} else {
+					newConfig.pomodorosBeforeLongBreak = action.payload.pomodorosBeforeLongBreak!;
+				}
+			});
+			return newConfig;
 		},
 	},
 });
 
-export const { setDurations, setPomodorosBeforeLongBreak } = configSlice.actions;
-export const selectPomodoroDuration = (state: RootState) => state.config[WorkStateEnum.POMODORO];
-export const selectShortBreakDuration = (state: RootState) => state.config[WorkStateEnum.SHORT_BREAK];
-export const selectLongBreakDuration = (state: RootState) => state.config[WorkStateEnum.LONG_BREAK];
-export const selectPomodorosBeforeLongBreak = (state: RootState) => state.config.pomodorosBeforeLongBreak;
+export const { setConfig } = configSlice.actions;
+export const selectConfig = (state: RootState) => state.config;
+
 export default configSlice.reducer;
