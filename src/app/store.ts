@@ -1,6 +1,12 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, Middleware, PayloadAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { configReducer } from "../features/";
 import { timerReducer, controlReducer } from "../features/";
+import { ConfigState } from "../features/config/configSlice";
+
+const withConfig: Middleware = (storeApi) => (next) => (action: PayloadAction<ConfigState>) => {
+	const config = storeApi.getState().config; // correctly typed as RootState
+	next({ ...action, config });
+};
 
 export const store = configureStore({
 	reducer: {
@@ -8,7 +14,8 @@ export const store = configureStore({
 		control: controlReducer,
 		timer: timerReducer,
 	},
+	middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(withConfig),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export type AppDispatch = typeof store.dispatch & ThunkDispatch<RootState, undefined, any>;

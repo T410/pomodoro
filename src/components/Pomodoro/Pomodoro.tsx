@@ -5,17 +5,15 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 import { setConfig } from "../../features/config/configSlice";
 import { setTime } from "../../features/timer/timerSlice";
-import { play, next, setWorkState, WorkStateEnum } from "../../features/control/controlSlice";
+import { next, WorkStateEnum } from "../../features/control/controlSlice";
 
 function Pomodoro() {
 	const dispatch = useAppDispatch();
-	const controlState = useAppSelector((state) => state.control);
-	const config = useAppSelector((state) => state.config);
 	const pomodoroTime = useAppSelector((state) => state.config[WorkStateEnum.POMODORO]);
 	const [playAudio, setPlayAudio] = useState(false);
 
 	useEffect(() => {
-		dispatch(setConfig({ POMODORO: 25, SHORT_BREAK: 1, LONG_BREAK: 15 }));
+		dispatch(setConfig({ POMODORO: 25, SHORT_BREAK: 5, LONG_BREAK: 15 }));
 		dispatch(setTime(pomodoroTime));
 	}, [dispatch, pomodoroTime]);
 
@@ -27,19 +25,6 @@ function Pomodoro() {
 
 	function onNext() {
 		dispatch(next());
-		switch (controlState.work) {
-			case WorkStateEnum.POMODORO:
-				if (controlState.pomodoroCount % config.pomodorosBeforeLongBreak === 0) {
-					dispatch(setTime(config.LONG_BREAK));
-				} else {
-					dispatch(setTime(config.SHORT_BREAK));
-				}
-				break;
-
-			default:
-				dispatch(setTime(config.POMODORO));
-				break;
-		}
 	}
 
 	return (

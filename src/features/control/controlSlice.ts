@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "../../app/store";
+import type { AppDispatch, RootState } from "../../app/store";
+import { setTime } from "../timer/timerSlice";
+import { ConfigState } from "../config/configSlice";
 
 export enum TimeStateEnum {
 	STOPPED = "STOPPED",
@@ -25,6 +27,10 @@ const initialTimeState: ControlState = {
 	pomodoroCount: 1,
 };
 
+interface WithConfig extends PayloadAction<ConfigState | undefined> {
+	config?: ConfigState;
+}
+
 export const controlSlice = createSlice({
 	name: "control",
 	initialState: initialTimeState,
@@ -48,19 +54,16 @@ export const controlSlice = createSlice({
 				time: TimeStateEnum.STOPPED,
 			};
 		},
-		next: (state) => {
+		nextAction: (state, action: WithConfig) => {
 			switch (state.work) {
 				case WorkStateEnum.POMODORO:
-					if (state.pomodoroCount % 4 /*config.pomodorosBeforeLongBreak */ === 0) {
-						// dispatch(setTime(config.LONG_BREAK));
-						// dispatch(setWorkState(WorkStateEnum.LONG_BREAK));
+					const pomodorosBeforeLongBreak = action.config?.pomodorosBeforeLongBreak ?? 4;
+					if (state.pomodoroCount % pomodorosBeforeLongBreak === 0) {
 						return {
 							...state,
 							work: WorkStateEnum.LONG_BREAK,
 						};
 					} else {
-						// dispatch(setTime(config.SHORT_BREAK));
-						// dispatch(setWorkState(WorkStateEnum.SHORT_BREAK));
 						return {
 							...state,
 							work: WorkStateEnum.SHORT_BREAK,
@@ -68,8 +71,6 @@ export const controlSlice = createSlice({
 					}
 
 				default:
-					// dispatch(setTime(config.POMODORO));
-					// dispatch(setWorkState(WorkStateEnum.POMODORO));
 					return {
 						...state,
 						work: WorkStateEnum.POMODORO,
@@ -87,7 +88,13 @@ export const controlSlice = createSlice({
 	},
 });
 
-export const { play, pause, stop, next, setWorkState } = controlSlice.actions;
+export const { play, pause, stop, nextAction, setWorkState } = controlSlice.actions;
 export const selectState = (state: RootState) => state.control;
+export const next = () => (dispatch: AppDispatch, getState: () => RootState) => {
+	dispatch(nextAction());
+	const workState = getState().control.work;
+	const config = getState().config;
+	dispatch(setTime(config[workState]));
+};
 
 export default controlSlice.reducer;
