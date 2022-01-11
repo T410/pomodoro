@@ -4,7 +4,7 @@ import { timerReducer, controlReducer } from "../features/";
 import { ConfigState } from "../features/config/configSlice";
 
 const withConfig: Middleware = (storeApi) => (next) => (action: PayloadAction<ConfigState>) => {
-	const config = storeApi.getState().config; // correctly typed as RootState
+	const config = storeApi.getState().config;
 	next({ ...action, config });
 };
 
