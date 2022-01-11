@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { Audio } from "../";
-import { TimeControls, Timer, StateControls } from "../../features";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { Audio } from "components";
+import { TimeControls, Timer, StateControls } from "features";
+import { useAppDispatch, useAppSelector } from "app/hooks";
 
-import { setConfig } from "../../features/config/configSlice";
-import { setTime } from "../../features/timer/timerSlice";
-import { next, WorkStateEnum } from "../../features/control/controlSlice";
+import { setConfig } from "features/config/configSlice";
+import { setTime } from "features/timer/timerSlice";
+import { next, WorkStateEnum } from "features/control/controlSlice";
 
 function Pomodoro() {
 	const dispatch = useAppDispatch();

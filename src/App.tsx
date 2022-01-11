@@ -1,4 +1,4 @@
-import { Nav, Pomodoro, Info } from "./components";
+import { Nav, Pomodoro, Info } from "components";
 
 function App() {
 	return (

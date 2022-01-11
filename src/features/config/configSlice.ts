@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "../../app/store";
-import { WorkStateEnum } from "../control/controlSlice";
+import type { RootState } from "app/store";
+import { WorkStateEnum } from "features/control/controlSlice";
 
 export interface ConfigState {
 	[WorkStateEnum.POMODORO]: number;

@@ -1,8 +1,8 @@
-import { Button } from "../../components";
-import { playSVG, pauseSVG, stopSVG, nextSVG } from "../../assets";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { play, pause, stop, TimeStateEnum } from "./controlSlice";
-import { setTime } from "../timer/timerSlice";
+import { Button } from "components";
+import { playSVG, pauseSVG, stopSVG, nextSVG } from "assets";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { play, pause, stop, TimeStateEnum } from "features/control/controlSlice";
+import { setTime } from "features/timer/timerSlice";
 
 import { useEffect, useState } from "react";
 

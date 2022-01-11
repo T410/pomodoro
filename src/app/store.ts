@@ -1,7 +1,7 @@
 import { configureStore, Middleware, PayloadAction, ThunkDispatch } from "@reduxjs/toolkit";
-import { configReducer } from "../features/";
-import { timerReducer, controlReducer } from "../features/";
-import { ConfigState } from "../features/config/configSlice";
+import { configReducer } from "features";
+import { timerReducer, controlReducer } from "features";
+import { ConfigState } from "features/config/configSlice";
 
 const withConfig: Middleware = (storeApi) => (next) => (action: PayloadAction<ConfigState>) => {
 	const config = storeApi.getState().config;

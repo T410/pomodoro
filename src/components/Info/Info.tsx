@@ -1,4 +1,4 @@
-import { useAppSelector } from "../../app/hooks";
+import { useAppSelector } from "app/hooks";
 
 function Info() {
 	const count = useAppSelector((state) => state.control.pomodoroCount);

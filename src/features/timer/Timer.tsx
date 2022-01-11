@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { useInterval } from "../../app/hooks";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { tick } from "./timerSlice";
-import { TimeStateEnum } from "../control/controlSlice";
-import { calculateTime } from "./utils";
+import { useAppDispatch, useAppSelector, useInterval } from "app/hooks";
+import { tick } from "features/timer/timerSlice";
+import { TimeStateEnum } from "features/control/controlSlice";
+import { calculateTime } from "features/timer/utils";
 
 function setTextContent(ref: React.RefObject<HTMLElement>, text: string | number) {
 	if (ref.current) {

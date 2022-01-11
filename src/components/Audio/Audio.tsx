@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { uiSound } from "../../assets";
+import { uiSound } from "assets";
 
 function Audio({ play }: { play: boolean }) {
 	const audioRef = useRef<HTMLAudioElement>(null);

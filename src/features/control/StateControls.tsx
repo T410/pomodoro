@@ -1,8 +1,8 @@
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "app/hooks";
 import { useEffect, useState } from "react";
-import { setWorkState, WorkStateEnum } from "./controlSlice";
-import { setTime } from "../timer/timerSlice";
-import { stop } from "../control/controlSlice";
+import { setWorkState, WorkStateEnum } from "features/control/controlSlice";
+import { setTime } from "features/timer/timerSlice";
+import { stop } from "features/control/controlSlice";
 
 function StateButton({ children, type }: { children: React.ReactNode; type: WorkStateEnum }) {
 	const dispatch = useAppDispatch();

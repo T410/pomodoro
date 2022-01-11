@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import type { AppDispatch, RootState } from "../../app/store";
-import { setTime } from "../timer/timerSlice";
-import { ConfigState } from "../config/configSlice";
+import type { AppDispatch, RootState } from "app/store";
+import { setTime } from "features/timer/timerSlice";
+import { ConfigState } from "features/config/configSlice";
 
 export enum TimeStateEnum {
 	STOPPED = "STOPPED",
