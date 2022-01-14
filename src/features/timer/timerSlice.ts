@@ -30,14 +30,6 @@ export const timerSlice = createSlice({
 			};
 		},
 	},
-	extraReducers: (builder) => {
-		builder.addCase(stop, (state) => {
-			return {
-				...state,
-				time: 0,
-			};
-		});
-	},
 });
 
 export const { tick, setTime } = timerSlice.actions;

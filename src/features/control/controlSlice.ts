@@ -47,7 +47,7 @@ export const controlSlice = createSlice({
 				time: TimeStateEnum.PAUSED,
 			};
 		},
-		stop: (state) => {
+		stopAction: (state) => {
 			document.title = "Pomodoro";
 			return {
 				...state,
@@ -88,10 +88,16 @@ export const controlSlice = createSlice({
 	},
 });
 
-export const { play, pause, stop, nextAction, setWorkState } = controlSlice.actions;
+export const { play, pause, nextAction, stopAction, setWorkState } = controlSlice.actions;
 export const selectState = (state: RootState) => state.control;
 export const next = () => (dispatch: AppDispatch, getState: () => RootState) => {
 	dispatch(nextAction());
+	const workState = getState().control.work;
+	const config = getState().config;
+	dispatch(setTime(config[workState]));
+};
+export const stop = () => (dispatch: AppDispatch, getState: () => RootState) => {
+	dispatch(stopAction());
 	const workState = getState().control.work;
 	const config = getState().config;
 	dispatch(setTime(config[workState]));
