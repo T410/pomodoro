@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "app/store";
 import { calculateTime } from "features/timer/utils";
-import { stop } from "features/control/controlSlice";
 
 interface TimerState {
 	time: number;
