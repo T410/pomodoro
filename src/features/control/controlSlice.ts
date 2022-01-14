@@ -92,9 +92,15 @@ export const { play, pause, nextAction, stopAction, setWorkState } = controlSlic
 export const selectState = (state: RootState) => state.control;
 export const next = () => (dispatch: AppDispatch, getState: () => RootState) => {
 	dispatch(nextAction());
+
 	const workState = getState().control.work;
 	const config = getState().config;
 	dispatch(setTime(config[workState]));
+
+	const timeState = getState().control.time;
+	if (timeState === TimeStateEnum.PAUSED) {
+		dispatch(stop());
+	}
 };
 export const stop = () => (dispatch: AppDispatch, getState: () => RootState) => {
 	dispatch(stopAction());
