@@ -46,7 +46,7 @@ function Timer({ onNext }: { onNext: () => void }) {
 	}, [time]);
 
 	return (
-		<h1 className="text-8xl md:text-9xl tabular-nums" ref={timeRef}>
+		<h1 className="text-8xl md:text-9xl" ref={timeRef}>
 			{calculateTime(timer)}
 		</h1>
 	);

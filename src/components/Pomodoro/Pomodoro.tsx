@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Audio } from "components";
-import { TimeControls, Timer, StateControls } from "features";
+import { TimeControls, Timer, StateControls, ModBubbles } from "features";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 
 import { setConfig } from "features/config/configSlice";
@@ -33,6 +33,7 @@ function Pomodoro() {
 			<Timer onNext={onNext} />
 			<StateControls />
 			<TimeControls onNext={onNext} />
+			<ModBubbles />
 		</div>
 	);
 }
