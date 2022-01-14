@@ -40,7 +40,7 @@ function TimeControls({ onNext }: { onNext: () => void }) {
 					className="h-full"
 				/>
 			</Button>
-			<Button onClick={onStop}>
+			<Button onClick={onStop} disabled={controlState.time === TimeStateEnum.STOPPED}>
 				<img src={stopSVG} alt="stop button" className="h-full" />
 			</Button>
 			<Button onClick={onNext}>
