@@ -10,26 +10,17 @@ function setTextContent(ref: React.RefObject<HTMLElement>, text: string | number
 	}
 }
 
-function Timer({ onNext }: { onNext: () => void }) {
+function Timer() {
 	const dispatch = useAppDispatch();
-	const config = useAppSelector((state) => state.config);
 	const controlState = useAppSelector((state) => state.control);
-	const timer = useAppSelector((state) => state.timer.time);
+	const time = useAppSelector((state) => state.timer.time);
+
 	const timeRef = useRef<HTMLHeadingElement>(null);
-	const [time, setTime] = useState(config[controlState.work]);
+	const [humanReadableTime, setHumanReadableTime] = useState(calculateTime(time));
 
 	const [play, pause] = useInterval(() => {
-		if (time <= 0) {
-			onNext();
-		} else {
-			setTime(time - 1);
-			dispatch(tick());
-		}
+		dispatch(tick());
 	}, 1000);
-
-	useEffect(() => {
-		setTime(timer);
-	}, [timer]);
 
 	useEffect(() => {
 		if (controlState.time === TimeStateEnum.PLAYING) {
@@ -40,14 +31,16 @@ function Timer({ onNext }: { onNext: () => void }) {
 	}, [controlState, play, pause]);
 
 	useEffect(() => {
-		if (time) {
-			setTextContent(timeRef, calculateTime(time));
-		}
+		setHumanReadableTime(calculateTime(time));
 	}, [time]);
+
+	useEffect(() => {
+		setTextContent(timeRef, humanReadableTime);
+	}, [humanReadableTime]);
 
 	return (
 		<h1 className="text-8xl md:text-9xl" ref={timeRef}>
-			{calculateTime(timer)}
+			{humanReadableTime}
 		</h1>
 	);
 }

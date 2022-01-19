@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "app/store";
+import type { AppDispatch, RootState } from "app/store";
+import { next } from "features/control/controlSlice";
 import { calculateTime } from "features/timer/utils";
 
 interface TimerState {
@@ -14,9 +15,9 @@ export const timerSlice = createSlice({
 	name: "timer",
 	initialState: initialTimerState,
 	reducers: {
-		tick: (state) => {
+		tickReducer: (state) => {
 			const newTime = state.time - 1;
-			document.title = calculateTime(newTime - 1).toString();
+			document.title = calculateTime(newTime).toString();
 			return {
 				...state,
 				time: newTime,
@@ -31,7 +32,15 @@ export const timerSlice = createSlice({
 	},
 });
 
-export const { tick, setTime } = timerSlice.actions;
+export const { tickReducer, setTime } = timerSlice.actions;
 export const selectTime = (state: RootState) => state.timer;
+export const tick = () => (dispatch: AppDispatch, getState: () => RootState) => {
+	const time = selectTime(getState());
+	if (time.time > 0) {
+		dispatch(tickReducer());
+	} else {
+		dispatch(next());
+	}
+};
 
 export default timerSlice.reducer;
