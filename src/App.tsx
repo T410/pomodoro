@@ -1,4 +1,4 @@
-import { Nav, Pomodoro, Info } from "components";
+import { Nav, Pomodoro } from "components";
 
 function App() {
 	return (
@@ -6,7 +6,6 @@ function App() {
 			<Nav />
 			<div className="w-full md:w-2/3 max-w-xl flex flex-col justify-start items-center px-2">
 				<Pomodoro />
-				<Info />
 			</div>
 		</div>
 	);
