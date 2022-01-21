@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Audio } from "components";
 import { TimeControls, Timer, StateControls, ModBubbles } from "features";
 import { useAppDispatch, useAppSelector } from "app/hooks";
